@@ -1,0 +1,26 @@
+function doGet(e) {
+  // ステップ1で確認したURLとentry番号に書き換えてください
+  const formUrl = "https://google.com";
+  const entryId = "entry.1221923024"; // 例: entry.123456789
+  
+  // URLパラメータからLINE IDを取得
+  const lineId = e.parameter.id;
+  
+  // LINE IDを埋め込んだフォームのURLを生成
+  const targetUrl = formUrl + "?usp=pp_url&" + entryId + "=" + encodeURIComponent(lineId);
+  
+  // ユーザーをGoogleフォームへ自動リダイレクトさせるHTMLを出力
+  // 【デバッグ用】取得したIDを画面にアラートで出す
+          alert("デバッグ【HTML成功】: LINE IDを取得しました。\nID: " + targetUrl);
+  const html = `
+    <html>
+      <head>
+        <script>window.location.href = "${targetUrl}";</script>
+      </head>
+      <body>
+        <p>画面を読み込んでいます。少々お待ちください...</p>
+      </body>
+    </html>
+  `;
+  return HtmlService.createHtmlOutput(html);
+}
