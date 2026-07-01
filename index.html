@@ -2,7 +2,14 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Loading v3</title>
+  <title>Loading v4</title>
+
+    <p id="status">起動待ち...</p>
+
+  <script>
+    // ★SDKより先に、まず「JSが動くか」だけを確認する
+    document.getElementById("status").innerText = "★JS動作OK（SDK読込前）";
+  </script>
   <script src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
   <script>
     const gasWebappUrl = "https://docs.google.com/forms/d/e/1FAIpQLSc-K4xOeaRjr_iHM_fTkyqntj9ykr8SwH4vY78r7uwKshDGrQ/viewform?usp=pp_url&entry.1221923024=";
