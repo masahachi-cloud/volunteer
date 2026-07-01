@@ -9,12 +9,16 @@
 
     async function main() {
       try {
+  log("① SDK読込OK、init開始");
         await liff.init({ liffId: "2010532295-PdIow6DJ" });
-
+   log("② init完了。isLoggedIn=" + liff.isLoggedIn());
         if (!liff.isLoggedIn()) {
+ log("③ 未ログイン→login()へ");
           liff.login();
         } else {
+log("④ ログイン済み→getProfile開始");
           const profile = await liff.getProfile();
+log("⑤ userId取得成功: " + profile.userId);
           const userId = profile.userId;
           document.body.innerText = "userId取得成功: " + userId;  // ← 一旦ここで確認
           // 確認できたら下2行を有効化してリダイレクト
