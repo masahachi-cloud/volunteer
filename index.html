@@ -1,26 +1,32 @@
-function doGet(e) {
-  // ステップ1で確認したURLとentry番号に書き換えてください
-  const formUrl = "https://google.com";
-  const entryId = "entry.1221923024"; // 例: entry.123456789
-  
-  // URLパラメータからLINE IDを取得
-  const lineId = e.parameter.id;
-  
-  // LINE IDを埋め込んだフォームのURLを生成
-  const targetUrl = formUrl + "?usp=pp_url&" + entryId + "=" + encodeURIComponent(lineId);
-  
-  // ユーザーをGoogleフォームへ自動リダイレクトさせるHTMLを出力
-  // 【デバッグ用】取得したIDを画面にアラートで出す
-          alert("デバッグ【HTML成功】: LINE IDを取得しました。\nID: " + targetUrl);
-  const html = `
-    <html>
-      <head>
-        <script>window.location.href = "${targetUrl}";</script>
-      </head>
-      <body>
-        <p>画面を読み込んでいます。少々お待ちください...</p>
-      </body>
-    </html>
-  `;
-  return HtmlService.createHtmlOutput(html);
-}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Loading...</title>
+  <!-- LINEのLIFF SDKを読み込み -->
+  <script src="https://line-scdn.net"></script>
+  <script>
+    // ステップ2でコピーした「GASのウェブアプリURL」に書き換えてください
+    const gasWebappUrl = "https://docs.google.com/forms/d/e/1FAIpQLSc-K4xOeaRjr_iHM_fTkyqntj9ykr8SwH4vY78r7uwKshDGrQ/viewform?usp=pp_url&entry.1221923024=";
+    async function main() {
+      // LIFFの初期化
+      await liff.init({ liffId: "2010532295-PdIow6DJ" }); 
+      
+      if (!liff.isLoggedIn()) {
+        liff.login(); // ログインしていない場合はログイン画面へ
+      } else {
+        // ログイン成功後、プロファイルからLINEの内部ユーザーIDを取得
+        const profile = await liff.getProfile();
+        const userId = profile.userId;
+
+        // GASへLINE IDをパラメータとして渡してリダイレクト
+        window.location.href = gasWebappUrl + userId;
+      }
+    }
+    main();
+  </script>
+</head>
+<body>
+  <p>ログイン認証中...</p>
+</body>
+</html>
