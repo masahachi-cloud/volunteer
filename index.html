@@ -2,47 +2,31 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Loading v4</title>
+  <title>アンケート</title>
+</head>
+<body>
+  <p id="status">読み込み中...</p>
 
-    <p id="status">起動待ち...</p>
-
-  <script>
-    // ★SDKより先に、まず「JSが動くか」だけを確認する
-    document.getElementById("status").innerText = "★JS動作OK（SDK読込前）";
-  </script>
   <script src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
   <script>
     const gasWebappUrl = "https://docs.google.com/forms/d/e/1FAIpQLSc-K4xOeaRjr_iHM_fTkyqntj9ykr8SwH4vY78r7uwKshDGrQ/viewform?usp=pp_url&entry.1221923024=";
+    const set = (m) => { document.getElementById("status").innerText = m; };
 
     async function main() {
-      const log = (msg) => { document.body.innerText = msg; };
       try {
-        log("① SDK読込OK、init開始");
         await liff.init({ liffId: "2010532295-PdIow6DJ" });
-        log("② init完了。isLoggedIn=" + liff.isLoggedIn());
-
         if (!liff.isLoggedIn()) {
-          log("③ 未ログイン→login()へ");
           liff.login();
         } else {
-          log("④ ログイン済み→getProfile開始");
-          const profile = await liff.getProfile();
-          log("⑤ userId取得成功: " + profile.userId);
+          const p = await liff.getProfile();
+          // ★ userIdをフォームのプレフィルURLに付けて遷移
+          window.location.href = gasWebappUrl + encodeURIComponent(p.userId);
         }
       } catch (e) {
-        log("エラー: " + e.message);
+        set("エラー: " + e.message);
       }
     }
-
-    // SDK自体が読めているかも確認
-    if (typeof liff === "undefined") {
-      document.body.innerText = "SDK未読込: liffが未定義";
-    } else {
-      main();
-    }
+    main();
   </script>
-</head>
-<body>
-  <p>起動待ち...</p>
 </body>
 </html>
