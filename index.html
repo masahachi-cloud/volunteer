@@ -8,6 +8,7 @@
     const gasWebappUrl = "https://docs.google.com/forms/d/e/1FAIpQLSc-K4xOeaRjr_iHM_fTkyqntj9ykr8SwH4vY78r7uwKshDGrQ/viewform?usp=pp_url&entry.1221923024=";
 
     async function main() {
+const log = (msg) => { document.body.innerText = msg; };
       try {
   log("① SDK読込OK、init開始");
         await liff.init({ liffId: "2010532295-PdIow6DJ" });
