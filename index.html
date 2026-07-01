@@ -25,6 +25,7 @@ log("⑤ userId取得成功: " + profile.userId);
           // window.location.href = gasWebappUrl + encodeURIComponent(userId);
         }
       } catch (e) {
+log("エラー: " + e.message);
         document.body.innerText = "エラー: " + e.message;
       }
     }
